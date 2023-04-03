@@ -1,23 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-function App() {
+import Home from "./pages/Home";
+import Details from "./pages/Details";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import PageContainer from "./container/PageContainer";
+import Card from "./components/Card"
+
+import { useSelector } from "react-redux";
+
+const App=()=> {
+  const { drawerState } = useSelector(state=>state)
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <PageContainer>
+        <BrowserRouter>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/details/:id" element={<Details />} />
+          </Routes>
+          {
+            drawerState.drawer && <Card/>
+          }
+          <Footer />
+        </BrowserRouter>
+      </PageContainer>
     </div>
   );
 }
